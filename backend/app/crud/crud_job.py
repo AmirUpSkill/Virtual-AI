@@ -61,3 +61,32 @@ async def delete_job(db: AsyncSession, *, job_uuid: uuid.UUID) -> GenerationJob 
         await db.commit()
     
     return job_to_delete
+
+
+# Convenience helper to keep service layer thin
+from app.db.models import JobStatus
+
+async def update_job_status(
+    db: AsyncSession,
+    *,
+    job_uuid: uuid.UUID,
+    new_status: JobStatus,
+    generated_key: str | None = None,
+) -> GenerationJob | None:
+    """
+    Update a job's status (and optionally its generated image key) by UUID.
+
+    Returns the updated job or None if not found.
+    """
+    job = await get_job_by_uuid(db, job_uuid=job_uuid)
+    if not job:
+        return None
+
+    job.status = new_status
+    if generated_key is not None:
+        job.generated_image_key = generated_key
+
+    db.add(job)
+    await db.commit()
+    await db.refresh(job)
+    return job
