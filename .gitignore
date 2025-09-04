@@ -1,0 +1,44 @@
+# --- General ---
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore sensitive environment variables
+# IMPORTANT: Only commit .env.example, never your actual .env file
+.env
+.env.*
+!.env.example
+
+# --- Python & FastAPI Backend ---
+# Ignore the virtual environment created by uv or venv
+.venv/
+
+# Ignore Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore IDE/editor-specific files
+.vscode/
+.idea/
+
+# --- Node.js & React Frontend ---
+# Ignore node modules, the source of all dependencies
+node_modules/
+
+# Ignore build output directory
+dist/
+.next/
+build/
+
+# Ignore logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Docker ---
+# Ignore persistent data volumes defined in docker-compose
+# This prevents your local database and storage data from being committed
+pgdata/
+minio/
